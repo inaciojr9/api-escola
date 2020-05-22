@@ -1,58 +1,51 @@
 package com.inaciojr9.escola.banco;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.inaciojr9.escola.model.Aluno;
 
-public class JDBCSelect {
+public class JDBCSelectPorId {
    
-   public static List<Aluno> getAll() {
+   public static Aluno getById(Long idAluno) {
 	   
 	   Connection conn = null;
-	   Statement stmt = null;
+	   PreparedStatement stmt = null;
 	   try{
 		  conn = Conexao.getDBConnection();
-	      stmt = conn.createStatement();
+	      
 	      String sql;
+	      sql = "SELECT id, nome FROM aluno where id = ?";
+	      stmt = conn.prepareStatement(sql);
+	      stmt.setLong(1, idAluno);
 	      
-	      sql = "SELECT id, nome FROM aluno";
-	      
-	      ResultSet rs = stmt.executeQuery(sql);
-	      List<Aluno> alunos = new ArrayList<>();
-	      while(rs.next()){
+	      ResultSet rs = stmt.executeQuery();
+	      Aluno aluno = null;
+	      if(rs.next()){
 				
 	    	  String nome = rs.getString("nome"); 
 	    	  Long id =	rs.getLong("id");
-	    	  Aluno aluno = new Aluno(id, nome);
-	    	  alunos.add(aluno);
-				 
+	    	  aluno = new Aluno(id, nome);
+	    	  
 	      }
 	      
 	      rs.close();
 	      stmt.close();
 	      conn.close();
-	      
-	      return alunos;
-	      
+	      return aluno;
 	   } catch (SQLException e) {
 		   throw new RuntimeException(e.getMessage());
-	   } finally{
+	   }finally{
 	      try{
-	         if(stmt!=null) {
+	         if(stmt!=null)
 	            stmt.close();
-	         }
 	      }catch(SQLException se2){
-	    	  se2.printStackTrace();
 	      }
 	      try{
-	         if(conn!=null) {
+	         if(conn!=null)
 	            conn.close();
-	         }
 	      }catch(SQLException se){
 	         se.printStackTrace();
 	      }
@@ -60,6 +53,6 @@ public class JDBCSelect {
    }
    
    public static void main(String[] args) throws SQLException {
-	   getAll();
+	   getById(9l);
    }
 }

@@ -1,6 +1,5 @@
 package com.inaciojr9.escola.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.inaciojr9.escola.banco.JDBCDelete;
 import com.inaciojr9.escola.banco.JDBCInsert;
 import com.inaciojr9.escola.banco.JDBCSelect;
+import com.inaciojr9.escola.banco.JDBCSelectPorId;
 import com.inaciojr9.escola.banco.JDBCUpdate;
 import com.inaciojr9.escola.model.Aluno;
 
@@ -29,7 +29,7 @@ public class AlunoController{
 	
 	@GetMapping("/alunos/{id}")
 	public Aluno obterPorId(@PathVariable(value="id") long id) {
-		return new Aluno(id,"nome");
+		return JDBCSelectPorId.getById(id);
 	}
 	
 	@PostMapping("/alunos")

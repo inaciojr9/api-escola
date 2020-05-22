@@ -1,8 +1,8 @@
 package com.inaciojr9.escola.banco;
  
+import java.net.URI;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
  
 public class Conexao {
  
@@ -30,11 +30,6 @@ public class Conexao {
 	static final String DB_PASSWORD = "inaciojr9";
 	*/
 	
-	// Para conexão heroku
-	static final String DB_DRIVER = "org.postgresql.Driver";  
-	static final String DB_CONNECTION = "postgres://yjnndbmqedaiiu:d64c16330ddc907e18a268b238eb2a07ed486782cdd4513d2c659d7286c3892a@ec2-34-192-30-15.compute-1.amazonaws.com:5432/dhht5lcr2m4mc";
-	static final String DB_USER = "yjnndbmqedaiiu";
-	static final String DB_PASSWORD = "d64c16330ddc907e18a268b238eb2a07ed486782cdd4513d2c659d7286c3892a";
 	
 	// Para conexão ao oracle inacio
 	/*private static final String DB_DRIVER = "oracle.jdbc.driver.OracleDriver";
@@ -47,6 +42,7 @@ public class Conexao {
 	private static final String DB_USER = "HR";
 	private static final String DB_PASSWORD = "HR";*/
  
+	/*
 	public static Connection getDBConnection() {
  
 		Connection dbConnection = null;
@@ -74,5 +70,23 @@ public class Conexao {
 		return dbConnection;
  
 	}
+	*/
+	
+	public static Connection getDBConnection() {
+		
+		try {
+			URI dbUri = new URI(System.getenv("DATABASE_URL"));
+
+		    String username = dbUri.getUserInfo().split(":")[0];
+		    String password = dbUri.getUserInfo().split(":")[1];
+		    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + dbUri.getPath();
+
+		    return DriverManager.getConnection(dbUrl, username, password);
+		}catch(Exception e) {
+			throw new RuntimeException(e);
+		}
+		
+        
+    }
  
 }
