@@ -25,7 +25,7 @@ public class JDBCInsert {
 		try{
 			dbConnection = Conexao.getDBConnection();
 			
-			pstmt = dbConnection.prepareStatement(insertTableSQL);
+			pstmt = dbConnection.prepareStatement(insertTableSQL, PreparedStatement.RETURN_GENERATED_KEYS);
 //		    pstmt.setLong(1, id);
 //		    pstmt.setString(2, firstName);
 //		    pstmt.setString(3, lastName);
