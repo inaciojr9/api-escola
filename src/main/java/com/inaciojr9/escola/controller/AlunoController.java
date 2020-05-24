@@ -2,6 +2,8 @@ package com.inaciojr9.escola.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,18 +35,20 @@ public class AlunoController{
 	}
 	
 	@PostMapping("/alunos")
-	public void salvar(@RequestBody Aluno aluno) {
-		JDBCInsert.insert(aluno.getNome());
+	public Aluno salvar(@RequestBody Aluno aluno) {
+		return JDBCInsert.insert(aluno.getNome());
 	}
 	
 	@DeleteMapping("/alunos/{id}")
-	public void excluir(@PathVariable(value="id") long id) {
+	public ResponseEntity<Object> excluir(@PathVariable(value="id") long id) {
 		JDBCDelete.delete(id);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@PutMapping("/alunos")
-	public void atualizar(@RequestBody Aluno aluno) {
+	public ResponseEntity<Object> atualizar(@RequestBody Aluno aluno) {
 		JDBCUpdate.update(aluno.getId(), aluno.getNome());
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }
