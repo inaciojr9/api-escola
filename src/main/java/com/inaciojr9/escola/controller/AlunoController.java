@@ -45,8 +45,11 @@ public class AlunoController{
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@PutMapping("/alunos")
-	public ResponseEntity<Object> atualizar(@RequestBody Aluno aluno) {
+	@PutMapping("/alunos/{id}")
+	public ResponseEntity<Object> atualizar(@RequestBody Aluno aluno, Long id) {
+		if(id != aluno.getId()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		JDBCUpdate.update(aluno.getId(), aluno.getNome());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
