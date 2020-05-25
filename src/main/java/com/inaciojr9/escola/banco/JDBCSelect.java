@@ -20,7 +20,7 @@ public class JDBCSelect {
 	      stmt = conn.createStatement();
 	      String sql;
 	      
-	      sql = "SELECT id, nome FROM aluno";
+	      sql = "SELECT id, nome FROM aluno order by nome";
 	      
 	      ResultSet rs = stmt.executeQuery(sql);
 	      List<Aluno> alunos = new ArrayList<>();

@@ -48,8 +48,6 @@ public class AlunoController{
 	@PutMapping("/alunos/{id}")
 	public ResponseEntity<Object> atualizar(@RequestBody Aluno aluno, @PathVariable(value="id") long id) {
 		if(id != aluno.getId()) {
-			System.out.println(">>>>>>>>> ID: "+id);
-			System.out.println(">>>>>>>>> ALuno GetID: "+aluno.getId());
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		JDBCUpdate.update(aluno.getId(), aluno.getNome());
