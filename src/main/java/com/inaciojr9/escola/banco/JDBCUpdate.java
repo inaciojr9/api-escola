@@ -12,7 +12,6 @@ public class JDBCUpdate {
 		Connection dbConnection = null;
 		PreparedStatement pstmt = null;
  
-		//String updateTableSQL = "UPDATE EMPLOYEES SET FIRST_NAME = ? WHERE EMPLOYEE_ID = ?";
 		String updateTableSQL = "UPDATE aluno SET nome = ? WHERE id = ?";
  
 		try {
@@ -23,8 +22,6 @@ public class JDBCUpdate {
 			
 		    pstmt.setString(1, novoNome);
 		    pstmt.setLong(2, id);
- 
-			// execute update SQL stetement
 			pstmt.execute();
  
 			System.out.println("Registro foi atualizado na tabela!");
